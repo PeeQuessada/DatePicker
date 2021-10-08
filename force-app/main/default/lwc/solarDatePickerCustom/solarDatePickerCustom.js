@@ -8,34 +8,13 @@ import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 
 export default class solarCustomDataPicker extends OmniscriptBaseMixin(LightningElement) {
 
-    today;
-
-    loadStaticScripts() {
-        return getResourceUrl({
-          //resourceName: "JQuery2021" 
-          resourceName: "jsMoment"
-        }).then(resourceUrl => {
-            console.log('resourceURL', resourceUrl);
-          if (resourceUrl) {
-            loadScript(this,resourceUrl)
-            .then(() => {
-                console.log('entrou no then')
-                const today = moment();
-                this.today = today;
-                console.log('entrou no then2 ', today)
-                this.dateContext = moment();
-                this.selectedDate = moment();
-                this.refreshDateNodes();
-            });
-          }
-
-        })
-    }
+    hasMomentJs = false;
 
     connectedCallback() {
         this.loadStaticScripts();
     }
 
+    today;
     lastClass;
     @track dateContext;
     @track selectedDate;
@@ -148,12 +127,21 @@ export default class solarCustomDataPicker extends OmniscriptBaseMixin(Lightning
         }
     }
 
-    hasMomentJs() {
-        try{
-            let m = moment();
-            return true;
-        } catch(e) {
-            return false;
-        }
+    loadStaticScripts() {
+        return getResourceUrl({
+          //resourceName: "JQuery2021" 
+          resourceName: "jsMoment"
+        }).then(resourceUrl => {
+          if (resourceUrl) {
+            loadScript(this,resourceUrl)
+            .then(() => {
+                this.hasMomentJs = true;
+                this.today = moment();
+                this.dateContext = moment();
+                this.selectedDate = moment();
+                this.refreshDateNodes();
+            });
+          }
+        })
     }
 }
