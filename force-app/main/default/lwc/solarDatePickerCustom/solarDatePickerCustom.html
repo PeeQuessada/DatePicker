@@ -1,0 +1,11 @@
+<template>
+
+    <lightning-combobox
+            name="Selecione a data"
+            label="Selecione a data"
+            placeholder="Selecione a data"
+            value={value}
+            options={validDates}></lightning-combobox>
+
+    <input type="date" name="input1" id="myDatePicker" onclick={removeDates} />
+</template>
