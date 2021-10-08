@@ -1,3 +1,4 @@
+<!-- sldsValidatorIgnore -->
 <template>
     <div class="dates">
         <div class="buttonContainer">
@@ -13,7 +14,7 @@
             </button>
             <span class="bold">{month}</span>
             <button class="next" type="button" onclick={nextMonth}>
-                Next
+                Next 
             </button>
         </div>
         <ul class="header">
@@ -28,16 +29,97 @@
         <ul class="datePickerHolder">
             <template if:true={dates}>
                 <template for:each={dates} for:item="date">
-                    <li
-                        key={date.formatted}
-                        class={date.className}
-                        data-date={date.formatted}
-                        onclick={setSelected}
-                    >
+                    <li key={date.formatted} class={date.className} data-date={date.formatted} onclick={setSelected}>
                         {date.text}
                     </li>
                 </template>
             </template>
         </ul>
     </div>
+
+
+    <div style="height:25rem">
+        <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+            <label class="slds-form-element__label" for="date-input-id-default">Date</label>
+            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                <input type="text" id="date-input-id-default" placeholder=" " class="slds-input" onclick={handleCalendar}/>
+                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+                    title="Select a date">
+                    <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Select a date</span>
+                </button>
+            </div>
+            <template if:true={showCalendar}>
+                <div aria-hidden="false" aria-label="Date picker: June"
+                    class="slds-datepicker slds-dropdown slds-dropdown_left" role="dialog">
+                    <div class="slds-datepicker__filter slds-grid">
+                        <div class="slds-datepicker__filter_month slds-grid slds-grid_align-spread slds-grow">
+                            <div class="slds-align-middle">
+                                <button class="slds-button slds-button_icon slds-button_icon-container"
+                                    title="Previous Month">
+                                    <svg class="slds-button__icon" aria-hidden="true">
+                                        <use xlink:href="/slds/icons/utility-sprite/svg/symbols.svg#left"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Previous Month</span>
+                                </button>
+                            </div>
+                            <h2 aria-atomic="true" aria-live="assertive" class="slds-align-middle" id="defaultPicker-month">{month}</h2>
+                            <div class="slds-align-middle">
+                                <button class="slds-button slds-button_icon slds-button_icon-container" title="Next Month">
+                                    <svg class="slds-button__icon" aria-hidden="true">
+                                        <use xlink:href="/slds/icons/utility-sprite/svg/symbols.svg#right"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Next Month</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <table aria-labelledby="defaultPicker-month" aria-multiselectable="true" class="slds-datepicker__month"
+                        role="grid">
+                        <thead>
+                            <tr id="defaultPicker-weekdays">
+                                <th id="defaultPicker-Sunday" scope="col">
+                                    <abbr title="Sunday">D</abbr>
+                                </th>
+                                <th id="defaultPicker-Monday" scope="col">
+                                    <abbr title="Monday">S</abbr>
+                                </th>
+                                <th id="defaultPicker-Tuesday" scope="col">
+                                    <abbr title="Tuesday">T</abbr>
+                                </th>
+                                <th id="defaultPicker-Wednesday" scope="col">
+                                    <abbr title="Wednesday">Q</abbr>
+                                </th>
+                                <th id="defaultPicker-Thursday" scope="col">
+                                    <abbr title="Thursday">Q</abbr>
+                                </th>
+                                <th id="defaultPicker-Friday" scope="col">
+                                    <abbr title="Friday">S</abbr>
+                                </th>
+                                <th id="defaultPicker-Saturday" scope="col">
+                                    <abbr title="Saturday">S</abbr>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={availableDates} for:item="weeks">
+                                <tr key={weeks}>
+                                    <template for:each={weeks} for:item="date">
+                                        <td key={date} aria-selected="false" class="slds-day_adjacent-month" role="gridcell" aria-label="31 May 2020">
+                                            <span class="slds-day">{date.text}</span>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>                            
+                        </tbody>
+                    </table>
+                </div>
+            </template>
+        </div>
+    </div>
+
+
+
 </template>
